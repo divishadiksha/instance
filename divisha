@@ -33,7 +33,7 @@ pipeline {
                 sh'''
                 sudo aws ecr get-login-password --region ap-northeast-1 | sudo docker login --username AWS --password-stdin 767397841051.dkr.ecr.ap-northeast-1.amazonaws.com
                 sudo docker tag div:latest 767397841051.dkr.ecr.ap-northeast-1.amazonaws.com/div:latest
-                sudo docker push div:latest 767397841051.dkr.ecr.ap-northeast-1.amazonaws.com/div:latest
+                sudo docker push 767397841051.dkr.ecr.ap-northeast-1.amazonaws.com/div:latest
                 '''
             }
         }   
