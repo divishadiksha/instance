@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+	    stages {
+         stage('gitinstall') {
+            steps {
+                sh'''
+                sudo yum install git -y
+                '''
+            }
+        }
+        stage('git') {
+            steps {
+                git branch: 'main', url: 'https://github.com/SanjayTomar22/pikachu.git' 
+            }
+        }
+        stage('dockerinstall') {
+            steps {
+                sh'''
+                sudo yum install docker -y
+                sudo systemctl enable --now docker
+                '''
+            }
+        }
+        stage('dockerbuild') {
+            steps {
+                sh'''
+                sudo docker build -t jenkpush .
+                '''
+            }
+        }
+        stage('pushimage') {
+            steps {
+                sh'''
+                sudo aws ecr get-login-password --region ap-northeast-1 | sudo docker login --username AWS --password-stdin 767397841051.dkr.ecr.ap-northeast-1.amazonaws.com
+                sudo docker tag div:latest 767397841051.dkr.ecr.ap-northeast-1.amazonaws.com/div:latest
+                sudo docker push div:latest 767397841051.dkr.ecr.ap-northeast-1.amazonaws.com/div:latest
+                '''
+            }
+        }   
+    }
+}
+            
+        
+
+
+git token: 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
